@@ -300,7 +300,7 @@ class Trainer():
         state = {
             'epoch': self.current_epoch + 1,
             'iteration': self.current_iter,
-            'state_dict': self.model.state_dict(),
+            'state_dict': self.model.to('cpu').state_dict(),
             'optimizer': self.optimizer.state_dict(),
             'best_MIou':self.best_MIou
         }
@@ -319,6 +319,7 @@ class Trainer():
             # self.current_epoch = checkpoint['epoch']
             # self.current_iter = checkpoint['iteration']
             self.model.load_state_dict(checkpoint['state_dict'])
+            self.model.to(self.device)
             self.optimizer.load_state_dict(checkpoint['optimizer'])
             self.best_MIou = checkpoint['best_MIou']
 
