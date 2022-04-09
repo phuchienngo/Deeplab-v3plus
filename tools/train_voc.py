@@ -191,7 +191,10 @@ class Trainer():
             # logger.info("y:{}".format(y.cpu().numpy()))
             # pred_s = F.softmax(pred, dim=1)
             # loss
-            cur_loss = self.loss(pred, y)
+            if torch.cuda.is_available(): 
+                cur_loss = self.loss(pred, y.type(torch.cuda.LongTensor))
+            else:
+                cur_loss = self.loss(pred, y.type(torch.LongTensor))
 
             # optimizer
             cur_loss.backward()
